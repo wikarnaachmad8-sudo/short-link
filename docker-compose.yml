@@ -1,10 +1,20 @@
 services:
   app:
-    build: .
-    container_name: shortlink_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: shortlink-app
+    restart: unless-stopped
     env_file:
       - .env
     ports:
       - "8096:8000"
     command: php artisan serve --host=0.0.0.0 --port=8000
+
+    networks:
+      - dokploy-network
+
+networks:
+  dokploy-network:
+    external: true
 
