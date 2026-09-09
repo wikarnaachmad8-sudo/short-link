@@ -4,20 +4,20 @@
 
 @section('content')
 {{-- ── Page Header & Unified Search Toolbar ── --}}
-<div class="card border-0 shadow-sm mb-4 page-toolbar-card">
+<div class="card border-0 mb-4 page-toolbar-card">
     <div class="card-body p-4">
         <div class="row align-items-center g-3">
             {{-- Title & Total Counter --}}
             <div class="col-lg-6 col-md-5">
-                <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
-                    <h1 class="h3 fw-bold mb-0 text-dark">
+                <div class="d-flex align-items-center gap-2 mb-1 flex-nowrap">
+                    <h1 class="page-header-title mb-0">
                         <i class="bi bi-link-45deg text-primary"></i> Short Links Saya
                     </h1>
                     <span class="total-links-badge" title="Total short link yang Anda miliki">
                         <i class="bi bi-collection"></i> {{ number_format($totalLinks) }} Total
                     </span>
                 </div>
-                <p class="text-muted mb-0 small">
+                <p class="page-header-subtitle mb-0">
                     @if($search)
                         Hasil pencarian untuk: <span class="fw-semibold text-dark">"{{ $search }}"</span> &bull; <span class="text-primary fw-semibold">{{ $shortLinks->total() }}</span> link ditemukan
                     @else
@@ -29,8 +29,8 @@
             {{-- Search & Filter Bar --}}
             <div class="col-lg-6 col-md-7">
                 <form action="{{ route('short-links.index') }}" method="GET" id="searchForm">
-                    <div class="d-flex gap-2 flex-wrap flex-md-nowrap">
-                        <div class="search-input-wrapper flex-grow-1 mb-0">
+                    <div class="search-filter-row">
+                        <div class="search-input-wrapper flex-grow-1">
                             <i class="bi bi-search search-icon"></i>
                             <input
                                 type="text"
@@ -48,14 +48,16 @@
                             </a>
                             @endif
                         </div>
-                        <select name="category_id" class="form-select border-light-subtle rounded-3 shadow-sm select-category-filter" style="width: auto; min-width: 160px; height: calc(3.5rem + 2px); padding: 0.75rem 2.25rem 0.75rem 1rem;" onchange="this.form.submit()">
-                            <option value="">Semua Kategori</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ $categoryId == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <div class="select-category-wrapper">
+                            <select name="category_id" class="form-select select-category-filter" onchange="this.form.submit()">
+                                <option value="">Semua Kategori</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ $categoryId == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -64,27 +66,27 @@
 </div>
 
 {{-- ── Main Table Card ── --}}
-<div class="card border-0 shadow-sm overflow-hidden main-table-card">
+<div class="card border-0 overflow-hidden main-table-card">
     <div class="card-body p-0">
         @if($shortLinks->isEmpty())
-            <div class="text-center py-5 px-3">
+            <div class="empty-state-box text-center py-5 px-3">
                 @if($search)
                     <div class="empty-icon-wrapper mb-3">
                         <i class="bi bi-search"></i>
                     </div>
-                    <h5 class="fw-bold text-dark mb-1">Tidak Ada Hasil</h5>
-                    <p class="text-muted small mb-3">Tidak ditemukan short link yang cocok dengan kata kunci <strong>"{{ $search }}"</strong>.</p>
-                    <a href="{{ route('short-links.index') }}" class="btn btn-outline-primary btn-sm px-3 rounded-pill">
-                        <i class="bi bi-arrow-left"></i> Lihat Semua Short Link
+                    <h5 class="empty-state-title">Tidak Ada Hasil</h5>
+                    <p class="empty-state-desc">Tidak ditemukan short link yang cocok dengan kata kunci <strong>"{{ $search }}"</strong>.</p>
+                    <a href="{{ route('short-links.index') }}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold">
+                        <i class="bi bi-arrow-left me-1"></i> Lihat Semua Short Link
                     </a>
                 @else
                     <div class="empty-icon-wrapper mb-3">
                         <i class="bi bi-link-45deg"></i>
                     </div>
-                    <h5 class="fw-bold text-dark mb-1">Belum Ada Short Link</h5>
-                    <p class="text-muted small mb-3">Mulai buat dan perpendek tautan pertama Anda dari Dashboard.</p>
-                    <a href="{{ route('dashboard') }}" class="btn btn-primary btn-sm px-4 rounded-pill">
-                        <i class="bi bi-plus-lg"></i> Buat di Dashboard
+                    <h5 class="empty-state-title">Belum Ada Short Link</h5>
+                    <p class="empty-state-desc">Mulai buat dan perpendek tautan pertama Anda dari Dashboard.</p>
+                    <a href="{{ route('dashboard') }}" class="btn btn-empty-action">
+                        <i class="bi bi-plus-lg me-1"></i> Buat di Dashboard
                     </a>
                 @endif
             </div>
@@ -317,59 +319,84 @@
 
 @push('styles')
 <style>
-    /* ── Toolbar Card & Badges ── */
+    /* ── Typography & Page Toolbar ── */
     .page-toolbar-card {
-        border-radius: 16px;
+        border-radius: 20px;
         background: #ffffff;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+        border: 1.5px solid #e2e8f0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
+    }
+    .page-header-title {
+        font-size: 1.45rem;
+        font-weight: 800;
+        color: #0f172a;
+        letter-spacing: -0.3px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
+    .page-header-subtitle {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin-top: 0.35rem;
+        line-height: 1.4;
     }
     .total-links-badge {
         display: inline-flex;
         align-items: center;
         gap: 0.35rem;
-        padding: 0.3rem 0.75rem;
-        border-radius: 999px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        background: rgba(102, 126, 234, 0.1);
-        color: #5a6fd6;
-        border: 1px solid rgba(102, 126, 234, 0.2);
+        padding: 0.25rem 0.7rem;
+        border-radius: 20px;
+        font-size: 0.76rem;
+        font-weight: 700;
+        background: #ede9fe;
+        color: #6366f1;
+        border: 1px solid #ddd6fe;
+        flex-shrink: 0;
     }
 
-    /* ── Search Bar ── */
+    /* ── Search & Filter Bar ── */
+    .search-filter-row {
+        display: flex;
+        gap: 0.65rem;
+        align-items: center;
+    }
     .search-input-wrapper {
         position: relative;
         display: flex;
         align-items: center;
+        min-width: 0;
     }
     .search-icon {
         position: absolute;
-        left: 1.1rem;
+        left: 1.05rem;
         color: #94a3b8;
-        font-size: 1rem;
+        font-size: 0.95rem;
         pointer-events: none;
         z-index: 2;
         transition: color 0.2s;
     }
     .search-input {
-        padding-left: 2.85rem;
+        padding-left: 2.75rem;
         padding-right: 2.75rem;
         border-radius: 12px;
         border: 1.5px solid #e2e8f0;
-        font-size: 0.9rem;
+        font-size: 0.88rem;
+        font-weight: 500;
         height: 44px;
         transition: all 0.2s ease;
         background: #f8fafc;
+        color: #1e293b;
     }
     .search-input:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+        border-color: #6366f1;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
         background: #ffffff;
         outline: none;
     }
     .search-input:focus ~ .search-icon,
     .search-input-wrapper:focus-within .search-icon {
-        color: #667eea;
+        color: #6366f1;
     }
     .search-clear-btn {
         position: absolute;
@@ -392,11 +419,35 @@
         background: #ef4444;
         color: #ffffff;
     }
+    .select-category-wrapper {
+        min-width: 165px;
+        flex-shrink: 0;
+    }
+    .select-category-filter {
+        height: 44px;
+        border-radius: 12px;
+        border: 1.5px solid #e2e8f0;
+        font-size: 0.88rem;
+        font-weight: 500;
+        color: #334155;
+        background-color: #f8fafc;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        padding-left: 0.95rem;
+        box-shadow: none !important;
+    }
+    .select-category-filter:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12) !important;
+        background-color: #ffffff;
+        outline: none;
+    }
 
     /* ── Table Styling ── */
     .main-table-card {
-        border-radius: 16px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+        border-radius: 20px;
+        border: 1.5px solid #e2e8f0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03) !important;
     }
     .custom-link-table thead th {
         background-color: #f8fafc;
@@ -567,16 +618,66 @@
     }
 
     /* ── Empty State ── */
+    .empty-state-box {
+        padding: 4rem 1.5rem;
+    }
     .empty-icon-wrapper {
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        background: #f1f5f9;
-        color: #94a3b8;
-        font-size: 1.8rem;
+        width: 72px;
+        height: 72px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+        color: #6366f1;
+        font-size: 2.2rem;
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        border: 1.5px solid rgba(99, 102, 241, 0.18);
+        box-shadow: 0 8px 24px rgba(99, 102, 241, 0.1);
+    }
+    .empty-state-title {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #0f172a;
+        letter-spacing: -0.3px;
+        margin-bottom: 0.4rem;
+    }
+    .empty-state-desc {
+        font-size: 0.88rem;
+        color: #64748b;
+        max-width: 380px;
+        margin: 0 auto 1.5rem;
+        line-height: 1.5;
+    }
+    .btn-empty-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        padding: 0.65rem 1.75rem;
+        border-radius: 30px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #ffffff;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-decoration: none;
+        border: none;
+        box-shadow: 0 4px 14px rgba(102, 126, 234, 0.35);
+        transition: all 0.2s ease;
+    }
+    .btn-empty-action:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.48);
+        color: #ffffff;
+    }
+
+    @media (max-width: 767.98px) {
+        .search-filter-row {
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+        .select-category-wrapper {
+            width: 100%;
+        }
     }
 
     /* ── Pagination Styling ── */

@@ -72,7 +72,7 @@ class ShortLink extends Model
      */
     public function getShortUrlAttribute(): string
     {
-        return rtrim(config('app.url'), '/') . '/' . $this->short_code;
+        return url($this->short_code);
     }
 
     /**
