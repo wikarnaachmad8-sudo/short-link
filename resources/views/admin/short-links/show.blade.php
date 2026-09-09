@@ -94,12 +94,19 @@
                     <div class="admin-info-row">
                         <div class="admin-info-label"><i class="bi bi-person"></i> Pemilik Link</div>
                         <div class="admin-info-value">
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="admin-user-avatar">
+                            <div class="d-flex align-items-center gap-2.5">
+                                <div class="admin-user-avatar flex-shrink-0">
                                     {{ strtoupper(substr($shortLink->user->name, 0, 1)) }}
                                 </div>
-                                <span class="fw-bold text-dark">{{ $shortLink->user->name }}</span>
-                                <span class="text-muted small">({{ $shortLink->user->email }})</span>
+                                <div class="min-w-0">
+                                    <div class="d-flex align-items-center gap-1.5 flex-wrap">
+                                        <span class="fw-bold text-dark" style="font-size: 0.92rem;">{{ $shortLink->user->name }}</span>
+                                        @if($shortLink->user->isAdmin())
+                                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill py-0.5 px-2" style="font-size: 0.68rem;">Admin</span>
+                                        @endif
+                                    </div>
+                                    <div class="text-muted small text-break" style="font-size: 0.82rem;">{{ $shortLink->user->email }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
