@@ -31,15 +31,17 @@
             @csrf
 
             {{-- URL Input Row --}}
-            <div class="url-row mb-3">
-                <i class="bi bi-link-45deg url-row-icon"></i>
-                <input type="url" name="original_url" id="dash_url"
-                       value="{{ old('original_url') }}"
-                       placeholder="Paste your URL here... (e.g. https://mysite.com/very-long-url)"
-                       required autocomplete="off">
-                <button type="button" class="btn-paste" id="btnPaste">
-                    <i class="bi bi-clipboard"></i> <span class="d-none d-sm-inline">Paste</span>
-                </button>
+            <div class="shortener-input-group mb-3">
+                <div class="url-input-wrap">
+                    <i class="bi bi-link-45deg url-row-icon"></i>
+                    <input type="url" name="original_url" id="dash_url"
+                           value="{{ old('original_url') }}"
+                           placeholder="Tempel tautan URL panjang di sini... (contoh: https://mysite.com/very-long-url)"
+                           required autocomplete="off">
+                    <button type="button" class="btn-paste" id="btnPaste" title="Tempel dari Clipboard">
+                        <i class="bi bi-clipboard"></i> <span class="d-none d-sm-inline">Paste</span>
+                    </button>
+                </div>
                 <button type="submit" class="btn-shorten">
                     <i class="bi bi-stars"></i> <span>Shorten Now</span>
                 </button>
@@ -342,28 +344,35 @@
     margin: 0;
 }
 
-/* URL row */
-.url-row {
+/* URL row & Input Group */
+.shortener-input-group {
     display: flex;
-    gap: 0.55rem;
+    gap: 0.65rem;
+    align-items: stretch;
+}
+.url-input-wrap {
+    flex: 1;
+    display: flex;
     align-items: center;
+    gap: 0.65rem;
     background: #f8fafc;
     border: 2px solid #e2e8f0;
     border-radius: 14px;
-    padding: 0.45rem 0.5rem 0.45rem 1.1rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    padding: 0.45rem 0.6rem 0.45rem 1.1rem;
+    min-width: 0;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
-.url-row:focus-within {
+.url-input-wrap:focus-within {
     border-color: #667eea;
-    box-shadow: 0 0 0 4px rgba(102,126,234,0.1);
+    box-shadow: 0 0 0 4px rgba(102,126,234,0.12);
     background: #fff;
 }
 .url-row-icon {
     color: #94a3b8;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     flex-shrink: 0;
 }
-.url-row input {
+.url-input-wrap input {
     flex: 1;
     border: none;
     background: transparent;
@@ -372,12 +381,12 @@
     color: #334155;
     min-width: 0;
 }
-.url-row input::placeholder { color: #cbd5e1; }
+.url-input-wrap input::placeholder { color: #94a3b8; }
 .btn-paste {
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
-    padding: 0.48rem 0.85rem;
+    gap: 0.35rem;
+    padding: 0.5rem 0.85rem;
     border: 1.5px solid #e2e8f0;
     border-radius: 10px;
     background: #fff;
@@ -393,23 +402,27 @@
 .btn-shorten {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.52rem 1.3rem;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.65rem 1.5rem;
     border: none;
-    border-radius: 10px;
+    border-radius: 14px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: #fff;
-    font-size: 0.88rem;
+    font-size: 0.92rem;
     font-weight: 700;
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.2s;
     flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(102,126,234,0.3);
+    box-shadow: 0 4px 14px rgba(102,126,234,0.35);
 }
 .btn-shorten:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(102,126,234,0.45);
+    box-shadow: 0 6px 20px rgba(102,126,234,0.48);
+}
+.btn-shorten:active {
+    transform: translateY(0);
 }
 
 /* Feature cards */
@@ -721,13 +734,24 @@
     .links-card-header { padding: 1rem; }
     .dash-title { font-size: 1.5rem; }
 }
+@media (max-width: 640px) {
+    .shortener-input-group {
+        flex-direction: column;
+        gap: 0.65rem;
+    }
+    .url-input-wrap {
+        padding: 0.55rem 0.65rem 0.55rem 0.9rem;
+    }
+    .btn-shorten {
+        width: 100%;
+        padding: 0.75rem 1.2rem;
+    }
+}
 @media (max-width: 479.98px) {
     .feature-options-grid { grid-template-columns: repeat(2, 1fr); gap: 0.35rem; }
     .feat-card { padding: 0.6rem 0.2rem; border-radius: 10px; }
     .feat-icon { width: 30px; height: 30px; font-size: 0.9rem; border-radius: 8px; }
     .feat-label { font-size: 0.65rem; }
-    .url-row { flex-wrap: wrap; }
-    .btn-shorten, .btn-paste { flex: 1; justify-content: center; }
     .dash-stat-chip { padding: 0.55rem 0.75rem; }
     .dash-stat-val { font-size: 1.1rem; }
 }

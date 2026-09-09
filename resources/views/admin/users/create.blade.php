@@ -139,12 +139,13 @@
                     </div>
 
                     {{-- Action Buttons --}}
-                    <div class="d-flex align-items-center justify-content-end gap-2 pt-3 border-top">
-                        <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-semibold">
+                    <div class="d-flex align-items-center justify-content-end gap-2 pt-3 border-top flex-wrap">
+                        <a href="{{ route('admin.users.index') }}" class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-semibold text-nowrap">
                             Batal
                         </a>
-                        <button type="submit" class="btn btn-danger rounded-pill px-4 py-2 fw-semibold shadow-sm">
-                            <i class="bi bi-check-lg me-1"></i> Simpan User Baru
+                        <button type="submit" class="btn btn-danger rounded-pill px-4 py-2 fw-semibold shadow-sm text-nowrap d-inline-flex align-items-center gap-1.5">
+                            <i class="bi bi-check-lg"></i>
+                            <span>Simpan User Baru</span>
                         </button>
                     </div>
                 </form>

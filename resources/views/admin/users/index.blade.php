@@ -17,8 +17,8 @@
         </div>
     </div>
     <div>
-        <a href="{{ route('admin.users.create') }}" class="btn btn-danger rounded-pill px-3 py-2 fw-semibold shadow-sm">
-            <i class="bi bi-person-plus-fill me-1"></i> Tambah User Baru
+        <a href="{{ route('admin.users.create') }}" class="btn btn-danger rounded-pill px-3 py-2 fw-semibold shadow-sm text-nowrap d-inline-flex align-items-center gap-1.5">
+            <i class="bi bi-person-plus-fill"></i> Tambah User Baru
         </a>
     </div>
 </div>

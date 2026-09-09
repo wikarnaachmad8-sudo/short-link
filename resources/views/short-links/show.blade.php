@@ -11,15 +11,21 @@
     }
 
     /* ── Page Header ── */
-    .detail-header {
+    .detail-header-card {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 1.25rem;
         flex-wrap: wrap;
-        gap: 1rem;
         margin-bottom: 1.75rem;
     }
-    .btn-back-circle {
+    .detail-header-left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        min-width: 0;
+    }
+    .btn-back-nav {
         width: 44px;
         height: 44px;
         border-radius: 14px;
@@ -31,29 +37,97 @@
         justify-content: center;
         font-size: 1.2rem;
         text-decoration: none;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-        transition: all 0.2s ease;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         flex-shrink: 0;
     }
-    .btn-back-circle:hover {
+    .btn-back-nav:hover {
         background: #6366f1;
         color: #fff;
         border-color: #6366f1;
         transform: translateX(-3px);
-        box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+        box-shadow: 0 6px 16px rgba(99,102,241,0.28);
     }
     .detail-title {
-        font-size: 1.75rem;
+        font-size: 1.6rem;
         font-weight: 800;
-        color: #1e293b;
-        letter-spacing: -0.5px;
-        margin: 0 0 0.2rem;
+        color: #0f172a;
+        letter-spacing: -0.4px;
         line-height: 1.2;
     }
+    .detail-code-badge {
+        font-size: 0.82rem;
+        font-weight: 700;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        background: #ede9fe;
+        color: #6366f1;
+        border: 1.5px solid #ddd6fe;
+        letter-spacing: 0.3px;
+    }
     .detail-subtitle {
-        font-size: 0.875rem;
+        font-size: 0.85rem;
         color: #64748b;
-        margin: 0;
+        margin-top: 0.25rem;
+    }
+    .detail-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+    }
+    .btn-header-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.48rem 1.05rem;
+        border-radius: 30px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        border: 1.5px solid;
+    }
+    .btn-chip-secondary {
+        background: #fff;
+        color: #475569;
+        border-color: #e2e8f0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+    .btn-chip-secondary:hover {
+        background: #f8fafc;
+        color: #1e293b;
+        border-color: #cbd5e1;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+    .btn-chip-admin {
+        background: #fff1f2;
+        color: #e11d48;
+        border-color: #fecdd3;
+    }
+    .btn-chip-admin:hover {
+        background: #e11d48;
+        color: #fff;
+        border-color: #e11d48;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(225,29,72,0.25);
+    }
+
+    @media (max-width: 575.98px) {
+        .detail-header-card {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.85rem;
+        }
+        .detail-header-actions {
+            width: 100%;
+        }
+        .btn-header-chip {
+            flex: 1;
+            justify-content: center;
+        }
     }
 
     /* ── Main Cards ── */
@@ -461,23 +535,26 @@
 @section('content')
 
 {{-- ── Page Header & Quick Navigation ── --}}
-<div class="detail-header">
-    <div class="d-flex align-items-center gap-3">
-        <a href="{{ route('short-links.index') }}" class="btn-back-circle" title="Kembali ke Daftar Short Link">
+<div class="detail-header-card">
+    <div class="detail-header-left">
+        <a href="{{ url()->previous() !== url()->current() ? url()->previous() : route('dashboard') }}"
+           class="btn-back-nav"
+           title="Kembali ke Halaman Sebelumnya"
+           onclick="if(document.referrer && document.referrer !== window.location.href){ window.history.back(); return false; }">
             <i class="bi bi-arrow-left"></i>
         </a>
         <div>
-            <h1 class="detail-title">Detail Short Link</h1>
-            <p class="detail-subtitle">Informasi lengkap, analitik klik, dan pengaturan tautan.</p>
+            <h1 class="detail-title mb-1">Detail Short Link</h1>
+            <p class="detail-subtitle mb-0">Informasi lengkap, analitik klik, dan pengaturan tautan.</p>
         </div>
     </div>
-    <div class="d-flex align-items-center gap-2 flex-wrap">
-        <a href="{{ route('short-links.index') }}" class="btn btn-outline-secondary btn-sm px-3 rounded-pill fw-semibold shadow-sm">
-            <i class="bi bi-collection me-1"></i> Semua Link
+    <div class="detail-header-actions">
+        <a href="{{ route('short-links.index') }}" class="btn-header-chip btn-chip-secondary">
+            <i class="bi bi-collection"></i> <span>Semua Link</span>
         </a>
         @if(auth()->user()->isAdmin())
-            <a href="{{ route('admin.short-links.show', $shortLink) }}" class="btn btn-outline-danger btn-sm px-3 rounded-pill fw-semibold shadow-sm">
-                <i class="bi bi-shield-check me-1"></i> Panel Admin
+            <a href="{{ route('admin.short-links.show', $shortLink) }}" class="btn-header-chip btn-chip-admin">
+                <i class="bi bi-shield-check"></i> <span>Panel Admin</span>
             </a>
         @endif
     </div>
@@ -738,8 +815,10 @@
             </div>
             <div class="p-4">
                 <div class="d-grid gap-2">
-                    <a href="{{ route('short-links.index') }}" class="btn btn-outline-secondary rounded-pill py-2 fw-semibold">
-                        <i class="bi bi-arrow-left me-1"></i> Kembali ke Daftar
+                    <a href="{{ url()->previous() !== url()->current() ? url()->previous() : route('dashboard') }}"
+                       class="btn btn-outline-secondary rounded-pill py-2 fw-semibold"
+                       onclick="if(document.referrer && document.referrer !== window.location.href){ window.history.back(); return false; }">
+                        <i class="bi bi-arrow-left me-1"></i> Kembali ke Halaman Sebelumnya
                     </a>
 
                     <form action="{{ route('short-links.destroy', $shortLink) }}" method="POST"

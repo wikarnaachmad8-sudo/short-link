@@ -256,16 +256,17 @@
                         @endif
                     </div>
 
-                    <div class="d-flex align-items-center justify-content-end pt-2 border-top gap-1">
+                    <div class="d-flex align-items-center justify-content-end pt-2 border-top gap-1.5">
                         <a href="{{ route('short-links.show', $link) }}"
-                           class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1"
+                           class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1 fw-semibold d-inline-flex align-items-center gap-1"
                            title="Lihat Detail & Statistik">
-                            <i class="bi bi-eye me-1"></i> Detail
+                            <i class="bi bi-eye"></i> <span>Detail</span>
                         </a>
 
                         @if($link->qr_generated)
                         <button type="button"
-                                class="btn btn-sm btn-outline-warning rounded-pill px-2 py-1 btn-qr-index"
+                                class="btn btn-sm btn-outline-warning rounded-circle d-inline-flex align-items-center justify-content-center p-0 btn-qr-index"
+                                style="width: 31px; height: 31px; flex-shrink: 0;"
                                 title="Tampilkan QR Code"
                                 data-qr-url="{{ route('short-links.qr-code', $link) }}"
                                 data-short-url="{{ $link->short_url }}"
@@ -276,11 +277,14 @@
                         @endif
 
                         <form action="{{ route('short-links.destroy', $link) }}" method="POST"
-                              class="d-inline"
+                              class="d-inline-flex align-items-center m-0"
                               onsubmit="return confirm('Apakah Anda yakin ingin menghapus short link ini?')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1" title="Hapus Short Link">
+                            <button type="submit"
+                                    class="btn btn-sm btn-outline-danger rounded-circle d-inline-flex align-items-center justify-content-center p-0"
+                                    style="width: 31px; height: 31px; flex-shrink: 0;"
+                                    title="Hapus Short Link">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </form>

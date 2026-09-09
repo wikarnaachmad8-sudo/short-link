@@ -104,9 +104,9 @@
                         <span class="status-badge status-expired">Expired</span>
                     @endif
                 </div>
-                <div class="d-inline-flex gap-1">
-                    <a href="{{ route('short-links.show', $link) }}" class="action-btn action-btn-view" title="Detail">
-                        <i class="bi bi-eye"></i> Detail
+                <div class="d-inline-flex align-items-center gap-1.5">
+                    <a href="{{ route('short-links.show', $link) }}" class="action-btn action-btn-view action-btn-pill" title="Detail">
+                        <i class="bi bi-eye"></i> <span>Detail</span>
                     </a>
                     @if($link->qr_generated)
                     <button type="button" class="action-btn action-btn-qr btn-qr-dashboard"
@@ -129,7 +129,7 @@
 /* Empty state */
 .links-empty {
     text-align: center;
-    padding: 2.5rem 1rem;
+    padding: 3rem 1rem;
 }
 .links-empty-icon {
     width: 60px; height: 60px;
@@ -139,6 +139,17 @@
     font-size: 1.8rem;
     display: flex; align-items: center; justify-content: center;
     margin: 0 auto 0.85rem;
+}
+.empty-icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: #94a3b8;
 }
 .links-empty-msg {
     font-size: 0.875rem;
@@ -157,6 +168,22 @@
     transition: all 0.18s;
 }
 .links-empty-btn:hover { background: #6366f1; color: #fff; border-color: #6366f1; }
+
+/* Category badge */
+.cat-badge {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+.cat-primary   { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+.cat-success   { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+.cat-danger    { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+.cat-warning   { background: #fffbeb; color: #d97706; border: 1px solid #fde68a; }
+.cat-info      { background: #ecfeff; color: #0891b2; border: 1px solid #a5f3fc; }
+.cat-dark      { background: #f3f4f6; color: #374151; border: 1px solid #e5e7eb; }
+.cat-none      { background: #f8fafc; color: #94a3b8; border: 1px solid #e2e8f0; }
 
 /* Short URL link */
 .short-url-link {
@@ -198,12 +225,9 @@
 /* Click badge */
 .click-badge {
     display: inline-flex; align-items: center; gap: 0.3rem;
-    padding: 0.25rem 0.6rem;
-    background: #f1f5f9;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #64748b;
+    background: #f8fafc; border: 1px solid #e2e8f0;
+    padding: 0.25rem 0.65rem; border-radius: 20px;
+    font-size: 0.78rem; font-weight: 700; color: #334155;
 }
 
 /* Status badges */
@@ -228,6 +252,16 @@
     cursor: pointer;
     text-decoration: none;
     transition: all 0.18s;
+    flex-shrink: 0;
+}
+.action-btn-pill {
+    width: auto;
+    padding: 0 0.75rem;
+    gap: 0.35rem;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
 }
 .action-btn-view { border-color: #c7d2fe; color: #6366f1; background: #f0f0ff; }
 .action-btn-view:hover { background: #6366f1; color: #fff; border-color: #6366f1; }

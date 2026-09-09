@@ -8,7 +8,10 @@
 {{-- Page Header --}}
 <div class="admin-page-header mb-4">
     <div class="d-flex align-items-center gap-3">
-        <a href="{{ route('admin.short-links.index') }}" class="admin-back-btn" title="Kembali ke Manajemen Short Link">
+        <a href="{{ url()->previous() !== url()->current() ? url()->previous() : route('admin.short-links.index') }}"
+           class="admin-back-btn"
+           title="Kembali ke Halaman Sebelumnya"
+           onclick="if(document.referrer && document.referrer !== window.location.href){ window.history.back(); return false; }">
             <i class="bi bi-arrow-left"></i>
         </a>
         <div>
