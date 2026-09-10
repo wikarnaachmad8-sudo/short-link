@@ -34,8 +34,8 @@ RUN composer install --no-interaction --optimize-autoloader
 RUN chown -R www-data:www-data storage bootstrap/cache
 RUN chmod -R 775 storage bootstrap/cache
 
-# Buka port 8098
-EXPOSE 8098
+# Buka port 8096
+EXPOSE 8096
 
 # Jalankan aplikasinya
-CMD php artisan serve --host=0.0.0.0 --port=8098
+CMD php artisan serve --host=0.0.0.0 --port=8096
