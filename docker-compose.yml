@@ -9,7 +9,6 @@ services:
       - .env
     ports:
       - "8098:8098"
-    command: php artisan serve --host=0.0.0.0 --port=8098
 
     networks:
       - dokploy-network
