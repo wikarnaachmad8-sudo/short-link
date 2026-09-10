@@ -37,5 +37,5 @@ RUN chmod -R 775 storage bootstrap/cache
 # Buka port 8098
 EXPOSE 8098
 
-# Jalankan migrasi database dan aplikasinya
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8098
+# Jalankan migrasi database, seeding, dan aplikasinya
+CMD php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=8098
