@@ -10,7 +10,7 @@ services:
     ports:
       - "8098:8098"
 
-    networks:
+networks:
   default:
     name: dokploy-network
     external: true
