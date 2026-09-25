@@ -11,10 +11,7 @@ services:
       - "8098:8098"
 
     networks:
-      - dokploy-network
-
-networks:
   default:
-  dokploy-network:
+    name: dokploy-network
     external: true
 
